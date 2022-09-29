@@ -15,10 +15,34 @@ const todayString = `${
 export const contactData: Array<FormValues> = [
   {
     id: 1,
-    name: 'dds',
-    role: '',
-    skills: ['', ''],
+    name: 'Sean Spencer',
+    role: 'Dev',
+    skills: ['React', 'Angular'],
     startDate: todayString,
-    preference: '',
+    preference: 'Work From Home',
+  },
+  {
+    id: 2,
+    name: 'Burton Guster',
+    role: 'Dev',
+    skills: ['React'],
+    startDate: todayString,
+    preference: 'Work From Home',
+  },
+  {
+    id: 3,
+    name: "Juliet O'Hara",
+    role: 'Dev',
+    skills: ['React'],
+    startDate: todayString,
+    preference: 'Work From Home',
+  },
+  {
+    id: 4,
+    name: 'Lassy',
+    role: 'Dev',
+    skills: ['React'],
+    startDate: todayString,
+    preference: 'Work From Home',
   },
 ]
