@@ -1,10 +1,14 @@
 import {
   Autocomplete,
   FormControl,
+  FormControlLabel,
   FormGroup,
+  FormLabel,
   ListItemText,
   MenuItem,
   Paper,
+  Radio,
+  RadioGroup,
   Select,
   TextField,
 } from '@mui/material'
@@ -58,6 +62,38 @@ const ContactForm = () => {
                 value={''}
               />
             </LocalizationProvider>
+          </FormGroup>
+          <FormGroup row>
+            <FormGroup>
+              <FormLabel component="legend" htmlFor="preference-type-radio">
+                Work Preference
+              </FormLabel>
+              <RadioGroup
+                aria-label="preference"
+                id="preference-type-radio"
+                name="preference"
+                value="Work From Home"
+              >
+                <FormControlLabel
+                  label="Work From Home"
+                  value="Work From Home"
+                  control={<Radio />}
+                />
+                <FormControlLabel
+                  label="Hybrid"
+                  value="Hybrid"
+                  control={<Radio />}
+                />
+                <FormControlLabel
+                  label="In Office"
+                  value="In Office"
+                  control={<Radio />}
+                />
+              </RadioGroup>
+            </FormGroup>
+          </FormGroup>
+          <FormGroup row>
+            <FormGroup></FormGroup>
           </FormGroup>
         </FormControl>
       </form>
