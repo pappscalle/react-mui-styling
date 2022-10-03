@@ -1,5 +1,9 @@
 import {
+  Alert,
+  AlertTitle,
   Autocomplete,
+  Button,
+  Dialog,
   FormControl,
   FormControlLabel,
   FormGroup,
@@ -10,94 +14,244 @@ import {
   Radio,
   RadioGroup,
   Select,
+  SelectChangeEvent,
+  Stack,
   TextField,
 } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { contactData, FormValues } from '../../data/ContactData'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 
 const roles = ['Software Dev', 'Architecht', 'Designer', 'Business Analyst']
 const skills = ['React', 'Angular', 'Python', 'NodeJs', 'Machine Learning']
+
+const defaultRadioValue = 'Work From Home'
+const minWidth = 300
+
 const ContactForm = () => {
+  const today = new Date()
+  const getDefaultFormValues = () => {
+    return {
+      id: contactData.length + 1,
+      name: '',
+      skills: [],
+      startDate: `${
+        today.getMonth() + 1
+      }/${today.getDate()}/${today.getFullYear()}`,
+      preference: defaultRadioValue,
+    }
+  }
+
+  const [formValues, setFormValues] = useState<FormValues>(
+    getDefaultFormValues()
+  )
+
+  const [alertOpen, setAlertOpen] = useState(false)
+
+  const handleTextFieldChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    })
+  }
+
+  const hansleAutoCompleteChange = (
+    event: React.SyntheticEvent<Element, Event>,
+    value: string | null
+  ) => {
+    setFormValues({
+      ...formValues,
+      role: value || '',
+    })
+  }
+
+  const handleSelectChange = (
+    event: SelectChangeEvent<string[]>,
+    child: React.ReactNode
+  ) => {
+    const {
+      target: { value },
+    } = event
+    setFormValues({
+      ...formValues,
+      skills: typeof value === 'string' ? value.split(', ') : value,
+    })
+  }
+
+  const handleDatePickerChange = (
+    // value: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | null,
+    value: string | null,
+    keyboardInputValue?: string | undefined
+  ) => {
+    setFormValues({
+      ...formValues,
+      startDate: value || '',
+    })
+  }
+
+  const handleRadioChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    value: string
+  ) => {
+    const { name } = event.target
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    })
+  }
+
+  const handleSubmit = () => {
+    contactData.push(formValues)
+    clearValues()
+    setAlertOpen(true)
+  }
+
+  const handleClear = () => {
+    clearValues()
+  }
+
+  const clearValues = () => {
+    setFormValues({ ...getDefaultFormValues() })
+  }
+
   return (
-    <Paper>
-      <form>
-        <FormControl>
-          <FormGroup row>
-            <TextField
-              id="nam</TextField>e"
-              name="name"
-              label="Name"
-              variant="outlined"
-            />
-            <Autocomplete
-              options={roles}
-              getOptionLabel={(roleOption) => `${roleOption}`}
-              renderInput={(params) => {
-                return <TextField name="role" {...params} />
+    <>
+      <Paper>
+        <form>
+          <FormControl>
+            <FormGroup
+              row
+              sx={{
+                padding: 2,
+                justifyContent: 'space-between',
               }}
-              renderOption={(props, option) => {
-                return <li {...props}>{`${option}`}</li>
-              }}
-            />
-          </FormGroup>
-          <FormGroup row>
-            <Select id="skill-select" labelId="skill-select-label">
-              {skills.map((skillName) => {
-                return (
-                  <MenuItem value={skillName} key={skillName}>
-                    <ListItemText primary={skillName} />
-                  </MenuItem>
-                )
-              })}
-            </Select>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DesktopDatePicker
-                inputFormat="YYYY-MM-DD"
-                renderInput={(params) => {
-                  return <TextField {...params} />
-                }}
-                onChange={() => {}}
-                value={''}
+            >
+              <TextField
+                id="nam</TextField>e"
+                name="name"
+                label="Name"
+                variant="outlined"
+                sx={{ minWidth: minWidth }}
+                onChange={handleTextFieldChange}
+                value={formValues.name}
               />
-            </LocalizationProvider>
-          </FormGroup>
-          <FormGroup row>
-            <FormGroup>
-              <FormLabel component="legend" htmlFor="preference-type-radio">
-                Work Preference
-              </FormLabel>
-              <RadioGroup
-                aria-label="preference"
-                id="preference-type-radio"
-                name="preference"
-                value="Work From Home"
-              >
-                <FormControlLabel
-                  label="Work From Home"
-                  value="Work From Home"
-                  control={<Radio />}
-                />
-                <FormControlLabel
-                  label="Hybrid"
-                  value="Hybrid"
-                  control={<Radio />}
-                />
-                <FormControlLabel
-                  label="In Office"
-                  value="In Office"
-                  control={<Radio />}
-                />
-              </RadioGroup>
+              <Autocomplete
+                sx={{ minWidth: minWidth }}
+                onInputChange={hansleAutoCompleteChange}
+                value={formValues.role || ''}
+                options={roles}
+                isOptionEqualToValue={(option, value) =>
+                  option === value || value === ''
+                }
+                getOptionLabel={(roleOption) => `${roleOption}`}
+                renderInput={(params) => {
+                  return <TextField name="role" {...params} />
+                }}
+                renderOption={(props, option) => {
+                  return <li {...props}>{`${option}`}</li>
+                }}
+              />
             </FormGroup>
-          </FormGroup>
-          <FormGroup row>
-            <FormGroup></FormGroup>
-          </FormGroup>
-        </FormControl>
-      </form>
-    </Paper>
+            <FormGroup
+              row
+              sx={{
+                padding: 2,
+                justifyContent: 'space-between',
+              }}
+            >
+              <Select
+                id="skill-select"
+                labelId="skill-select-label"
+                sx={{
+                  minWidth: minWidth,
+                  marginRight: 2,
+                }}
+                onChange={handleSelectChange}
+                value={formValues.skills || ''}
+                multiple
+              >
+                {skills.map((skillName) => {
+                  return (
+                    <MenuItem value={skillName} key={skillName}>
+                      <ListItemText primary={skillName} />
+                    </MenuItem>
+                  )
+                })}
+              </Select>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DesktopDatePicker
+                  inputFormat="YYYY-MM-DD"
+                  renderInput={(params) => {
+                    return <TextField {...params} sx={{ minWidth: minWidth }} />
+                  }}
+                  onChange={handleDatePickerChange}
+                  value={formValues.startDate}
+                />
+              </LocalizationProvider>
+            </FormGroup>
+            <FormGroup
+              row
+              sx={{
+                padding: 2,
+                justifyContent: 'space-between',
+              }}
+            >
+              <FormGroup sx={{ minWidth: minWidth, marginRight: 2 }}>
+                <FormLabel component="legend" htmlFor="preference-type-radio">
+                  Work Preference
+                </FormLabel>
+                <RadioGroup
+                  aria-label="preference"
+                  id="preference-type-radio"
+                  name="preference"
+                  value={formValues.preference}
+                  onChange={handleRadioChange}
+                >
+                  <FormControlLabel
+                    label={defaultRadioValue}
+                    value={defaultRadioValue}
+                    control={<Radio />}
+                  />
+                  <FormControlLabel
+                    label="Hybrid"
+                    value="Hybrid"
+                    control={<Radio />}
+                  />
+                  <FormControlLabel
+                    label="In Office"
+                    value="In Office"
+                    control={<Radio />}
+                  />
+                </RadioGroup>
+              </FormGroup>
+              <Stack>
+                <Button onClick={handleSubmit}>Save</Button>
+                <Button onClick={handleClear}>Clear</Button>
+              </Stack>
+            </FormGroup>
+          </FormControl>
+        </form>
+      </Paper>
+      <Dialog
+        open={alertOpen}
+        onClose={() => {
+          setAlertOpen(false)
+        }}
+      >
+        <Alert
+          onClose={() => {
+            setAlertOpen(false)
+          }}
+        >
+          <AlertTitle>Suceess!</AlertTitle>
+          Form submitted
+        </Alert>
+      </Dialog>
+    </>
   )
 }
 
