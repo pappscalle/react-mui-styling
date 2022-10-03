@@ -1,33 +1,29 @@
 import {
   Alert,
   AlertTitle,
-  Autocomplete,
   Button,
   Dialog,
   FormControl,
-  FormControlLabel,
   FormGroup,
-  FormLabel,
   ListItemText,
   MenuItem,
   Paper,
-  Radio,
-  RadioGroup,
-  Select,
   SelectChangeEvent,
   Stack,
-  TextField,
 } from '@mui/material'
 import React, { useState } from 'react'
 import { contactData, FormValues } from '../../data/ContactData'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers'
+import BeautifulTextField from './formsubcomponents/BeautifulTextField'
+import BeautifulAutoComplete from './formsubcomponents/BeautifulAutoComplete'
+import BeautifulSelect from './formsubcomponents/BeautifulSelect'
+import BeautifulDatePicker from './formsubcomponents/BeautifulDatePicker'
+import BeautifulRadios from './formsubcomponents/BeautifulRadios'
 
 const roles = ['Software Dev', 'Architecht', 'Designer', 'Business Analyst']
 const skills = ['React', 'Angular', 'Python', 'NodeJs', 'Machine Learning']
 
-const defaultRadioValue = 'Work From Home'
-const minWidth = 300
+export const defaultRadioValue = 'Work From Home'
+export const minWidth = 300
 
 const ContactForm = () => {
   const today = new Date()
@@ -130,30 +126,14 @@ const ContactForm = () => {
                 justifyContent: 'space-between',
               }}
             >
-              <TextField
-                id="nam</TextField>e"
-                name="name"
-                label="Name"
-                variant="outlined"
-                sx={{ minWidth: minWidth }}
+              <BeautifulTextField
                 onChange={handleTextFieldChange}
                 value={formValues.name}
               />
-              <Autocomplete
-                sx={{ minWidth: minWidth }}
+              <BeautifulAutoComplete
                 onInputChange={hansleAutoCompleteChange}
                 value={formValues.role || ''}
                 options={roles}
-                isOptionEqualToValue={(option, value) =>
-                  option === value || value === ''
-                }
-                getOptionLabel={(roleOption) => `${roleOption}`}
-                renderInput={(params) => {
-                  return <TextField name="role" {...params} />
-                }}
-                renderOption={(props, option) => {
-                  return <li {...props}>{`${option}`}</li>
-                }}
               />
             </FormGroup>
             <FormGroup
@@ -163,16 +143,9 @@ const ContactForm = () => {
                 justifyContent: 'space-between',
               }}
             >
-              <Select
-                id="skill-select"
-                labelId="skill-select-label"
-                sx={{
-                  minWidth: minWidth,
-                  marginRight: 2,
-                }}
+              <BeautifulSelect
                 onChange={handleSelectChange}
                 value={formValues.skills || ''}
-                multiple
               >
                 {skills.map((skillName) => {
                   return (
@@ -181,17 +154,12 @@ const ContactForm = () => {
                     </MenuItem>
                   )
                 })}
-              </Select>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DesktopDatePicker
-                  inputFormat="YYYY-MM-DD"
-                  renderInput={(params) => {
-                    return <TextField {...params} sx={{ minWidth: minWidth }} />
-                  }}
-                  onChange={handleDatePickerChange}
-                  value={formValues.startDate}
-                />
-              </LocalizationProvider>
+              </BeautifulSelect>
+
+              <BeautifulDatePicker
+                onChange={handleDatePickerChange}
+                value={formValues.startDate}
+              />
             </FormGroup>
             <FormGroup
               row
@@ -200,34 +168,11 @@ const ContactForm = () => {
                 justifyContent: 'space-between',
               }}
             >
-              <FormGroup sx={{ minWidth: minWidth, marginRight: 2 }}>
-                <FormLabel component="legend" htmlFor="preference-type-radio">
-                  Work Preference
-                </FormLabel>
-                <RadioGroup
-                  aria-label="preference"
-                  id="preference-type-radio"
-                  name="preference"
-                  value={formValues.preference}
-                  onChange={handleRadioChange}
-                >
-                  <FormControlLabel
-                    label={defaultRadioValue}
-                    value={defaultRadioValue}
-                    control={<Radio />}
-                  />
-                  <FormControlLabel
-                    label="Hybrid"
-                    value="Hybrid"
-                    control={<Radio />}
-                  />
-                  <FormControlLabel
-                    label="In Office"
-                    value="In Office"
-                    control={<Radio />}
-                  />
-                </RadioGroup>
-              </FormGroup>
+              <BeautifulRadios
+                value={formValues.preference}
+                onChange={handleRadioChange}
+              />
+
               <Stack>
                 <Button onClick={handleSubmit}>Save</Button>
                 <Button onClick={handleClear}>Clear</Button>
