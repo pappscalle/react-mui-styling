@@ -11,6 +11,7 @@ import React from 'react'
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import ContactForm from './form/ContactForm'
 import ContactCardGrid from './grid/ContactCardGrid'
+import ContactTable from './table/ContactTable'
 
 const theList = [
   { text: 'Input Form', route: '/form' },
@@ -87,7 +88,7 @@ const NavDrawer = () => {
             <Route path={'/'} element={<ContactForm />} />
             <Route path={'/form'} element={<ContactForm />} />
             <Route path={'/grid'} element={<ContactCardGrid />} />
-            <Route path={'/table'} element={<div>Table</div>} />
+            <Route path={'/table'} element={<ContactTable />} />
             <Route path={'/datagrid'} element={<div>Datagrid</div>} />
           </Routes>
         </main>
