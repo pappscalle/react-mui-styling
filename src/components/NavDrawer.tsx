@@ -10,6 +10,7 @@ import { Theme, useTheme } from '@mui/material/styles'
 import React from 'react'
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import ContactForm from './form/ContactForm'
+import ContactCardGrid from './grid/ContactCardGrid'
 
 const theList = [
   { text: 'Input Form', route: '/form' },
@@ -85,7 +86,7 @@ const NavDrawer = () => {
           <Routes>
             <Route path={'/'} element={<ContactForm />} />
             <Route path={'/form'} element={<ContactForm />} />
-            <Route path={'/grid'} element={<div>Grid</div>} />
+            <Route path={'/grid'} element={<ContactCardGrid />} />
             <Route path={'/table'} element={<div>Table</div>} />
             <Route path={'/datagrid'} element={<div>Datagrid</div>} />
           </Routes>
