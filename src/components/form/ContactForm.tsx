@@ -119,11 +119,7 @@ const ContactForm = () => {
   }
 
   const handleSubmit = () => {
-    console.log(formValues)
-    console.log(contactData)
     contactData.push(formValues)
-
-    console.log(contactData)
     clearValues()
     setAlertOpen(true)
   }
