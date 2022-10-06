@@ -10,7 +10,20 @@ const BeautifulTextField = (props: any) => {
       name="name"
       label="Name"
       variant="outlined"
-      sx={{ minWidth: minWidth }}
+      sx={{
+        minWidth: minWidth,
+        marginRight: 2,
+        '& .MuiOutlinedInput-root.Mui-focused': {
+          fieldset: {
+            borderColor: 'primary.dark',
+          },
+        },
+        '& .MuiOutlinedInput-root:hover': {
+          '& fieldset.MuiOutlinedInput-notchedOutline': {
+            borderColor: 'orange',
+          },
+        },
+      }}
       //   onChange={handleTextFieldChange}
       //   value={formValues.name}
     />

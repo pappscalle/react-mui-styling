@@ -25,11 +25,29 @@ const skills = ['React', 'Angular', 'Python', 'NodeJs', 'Machine Learning']
 export const defaultRadioValue = 'Work From Home'
 export const minWidth = 300
 
+const paperInputStyles = {
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      border: '1px solid',
+      borderColor: 'primary.main',
+    },
+  },
+  '& .MuiOutlinedInput-root:hover': {
+    '& fieldset': {
+      borderColor: 'primary.light',
+    },
+  },
+  '& .MuiFormLabel-root': {
+    color: 'primary.dark',
+  },
+}
+
 const ContactForm = () => {
   const today = new Date()
   const getDefaultFormValues = () => {
     return {
       id: contactData.length + 1,
+      role: '',
       name: '',
       skills: [],
       startDate: `${
@@ -101,7 +119,11 @@ const ContactForm = () => {
   }
 
   const handleSubmit = () => {
+    console.log(formValues)
+    console.log(contactData)
     contactData.push(formValues)
+
+    console.log(contactData)
     clearValues()
     setAlertOpen(true)
   }
@@ -116,7 +138,7 @@ const ContactForm = () => {
 
   return (
     <>
-      <Paper>
+      <Paper sx={paperInputStyles}>
         <form>
           <FormControl>
             <FormGroup
