@@ -9,6 +9,7 @@ import {
 import { Theme, useTheme } from '@mui/material/styles'
 import React from 'react'
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
+import ContactDataGrid from './datagrid/ContactDataGrid'
 import ContactForm from './form/ContactForm'
 import ContactCardGrid from './grid/ContactCardGrid'
 import ContactTable from './table/ContactTable'
@@ -89,7 +90,7 @@ const NavDrawer = () => {
             <Route path={'/form'} element={<ContactForm />} />
             <Route path={'/grid'} element={<ContactCardGrid />} />
             <Route path={'/table'} element={<ContactTable />} />
-            <Route path={'/datagrid'} element={<div>Datagrid</div>} />
+            <Route path={'/datagrid'} element={<ContactDataGrid />} />
           </Routes>
         </main>
       </BrowserRouter>
