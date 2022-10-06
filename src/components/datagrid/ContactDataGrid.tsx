@@ -16,7 +16,11 @@ const getColumns = () => {
       field: 'skills',
       headerName: 'Skills',
       renderCell: (cellValue: GridRenderCellParams<string[]>) => {
-        return <div>{cellValue.value ? cellValue.value[0] : ''}</div>
+        return (
+          <div style={{ backgroundColor: 'blue', minWidth: '600px' }}>
+            {cellValue.value ? cellValue.value[0] : ''}
+          </div>
+        )
       },
     },
     {
@@ -39,6 +43,7 @@ const ContactDataGrid = () => {
         headerHeight={60}
         rowHeight={120}
         pageSize={5}
+        rowsPerPageOptions={[5]}
       />
     </div>
   )
