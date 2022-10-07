@@ -135,7 +135,22 @@ const ContactForm = () => {
 
   return (
     <>
-      <Paper sx={paperInputStyles}>
+      <Paper
+        sx={{
+          ...paperInputStyles,
+          margin: {
+            xs: 1,
+            sm: 2,
+          },
+          zIndex: 'appBar',
+          '&:hover': {
+            backgroundColor: 'rgba(0,0,0,0.1)',
+          },
+          '& button.MuiButton-text': {
+            backgroundColor: 'primary.light',
+          },
+        }}
+      >
         <form>
           <FormControl>
             <FormGroup
