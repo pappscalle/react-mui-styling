@@ -5,7 +5,6 @@ import {
   Checkbox,
   Dialog,
   FormControl,
-  FormGroup,
   ListItemText,
   MenuItem,
   Paper,
@@ -19,6 +18,7 @@ import BeautifulAutoComplete from './formsubcomponents/BeautifulAutoComplete'
 import BeautifulSelect from './formsubcomponents/BeautifulSelect'
 import BeautifulDatePicker from './formsubcomponents/BeautifulDatePicker'
 import BeautifulRadios from './formsubcomponents/BeautifulRadios'
+import StyledFormGroup from './formsubcomponents/StyledFormGroup'
 
 const roles = ['Software Dev', 'Architecht', 'Designer', 'Business Analyst']
 const skills = ['React', 'Angular', 'Python', 'NodeJs', 'Machine Learning']
@@ -142,22 +142,23 @@ const ContactForm = () => {
             xs: 1,
             sm: 2,
           },
+          backgroundColor: 'grid.main',
           zIndex: 'appBar',
           '&:hover': {
             backgroundColor: 'rgba(0,0,0,0.1)',
           },
-          '& button.MuiButton-text': {
-            backgroundColor: 'primary.light',
-          },
+          // '& button.MuiButton-text': {
+          //   backgroundColor: 'primary.light',
+          // },
         }}
       >
         <form>
           <FormControl>
-            <FormGroup
+            <StyledFormGroup
               row
+              paddingtop={40}
               sx={{
-                padding: 2,
-                justifyContent: 'space-between',
+                backgroundColor: 'yellow', // will be skipped due to "skipSx" option in StyledFormGroup
               }}
             >
               <BeautifulTextField
@@ -169,14 +170,8 @@ const ContactForm = () => {
                 value={formValues.role || ''}
                 options={roles}
               />
-            </FormGroup>
-            <FormGroup
-              row
-              sx={{
-                padding: 2,
-                justifyContent: 'space-between',
-              }}
-            >
+            </StyledFormGroup>
+            <StyledFormGroup row>
               <BeautifulSelect
                 onChange={handleSelectChange}
                 value={formValues.skills || ''}
@@ -197,14 +192,8 @@ const ContactForm = () => {
                 onChange={handleDatePickerChange}
                 value={formValues.startDate}
               />
-            </FormGroup>
-            <FormGroup
-              row
-              sx={{
-                padding: 2,
-                justifyContent: 'space-between',
-              }}
-            >
+            </StyledFormGroup>
+            <StyledFormGroup row>
               <BeautifulRadios
                 value={formValues.preference}
                 onChange={handleRadioChange}
@@ -214,7 +203,7 @@ const ContactForm = () => {
                 <Button onClick={handleSubmit}>Save</Button>
                 <Button onClick={handleClear}>Clear</Button>
               </Stack>
-            </FormGroup>
+            </StyledFormGroup>
           </FormControl>
         </form>
       </Paper>

@@ -6,9 +6,10 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material'
-import { Theme, useTheme } from '@mui/material/styles'
+import { Theme, ThemeProvider, useTheme } from '@mui/material/styles'
 import React from 'react'
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
+import BeautifulTheme from '../theme/BeautifulTheme'
 import ContactDataGrid from './datagrid/ContactDataGrid'
 import ContactForm from './form/ContactForm'
 import ContactCardGrid from './grid/ContactCardGrid'
@@ -85,13 +86,15 @@ const NavDrawer = () => {
         </Drawer>
         <main style={{ ...styles.content, ...styles.contentShift }}>
           <Toolbar />
-          <Routes>
-            <Route path={'/'} element={<ContactForm />} />
-            <Route path={'/form'} element={<ContactForm />} />
-            <Route path={'/grid'} element={<ContactCardGrid />} />
-            <Route path={'/table'} element={<ContactTable />} />
-            <Route path={'/datagrid'} element={<ContactDataGrid />} />
-          </Routes>
+          <ThemeProvider theme={BeautifulTheme}>
+            <Routes>
+              <Route path={'/'} element={<ContactForm />} />
+              <Route path={'/form'} element={<ContactForm />} />
+              <Route path={'/grid'} element={<ContactCardGrid />} />
+              <Route path={'/table'} element={<ContactTable />} />
+              <Route path={'/datagrid'} element={<ContactDataGrid />} />
+            </Routes>
+          </ThemeProvider>
         </main>
       </BrowserRouter>
     </div>
