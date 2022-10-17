@@ -14,8 +14,23 @@ import {
 import React, { useState } from 'react'
 import { contactData, FormValues } from '../../data/ContactData'
 
+const contactLiHeight = 23
+let maxSkills = 1
+
+const gridAlignSize = {
+  minWidth: 400,
+  minHeight: 300,
+}
+
 const ContactCardGrid = () => {
   const [open, setOpen] = useState(true)
+  let gridAlignProps = open
+    ? {}
+    : {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+      }
 
   return (
     <Box m={1} p={1}>
@@ -26,11 +41,32 @@ const ContactCardGrid = () => {
       >
         Collapse
       </Button>
-      <Grid container spacing={2}>
+      <Grid
+        container
+        spacing={2}
+        sx={{
+          paddingRight: 2,
+          paddingBottom: 2,
+          marginLeft: 0,
+          backgroundColor: 'grid.main',
+          borderRadius: 2,
+          width: 680,
+        }}
+      >
         {contactData.map((contact: FormValues) => {
+          maxSkills =
+            contact.skills.length > maxSkills
+              ? contact.skills.length
+              : maxSkills
           return (
-            <Grid item key={contact.name}>
-              <Card sx={{ width: 300 }}>
+            <Grid
+              item
+              key={contact.name}
+              xs={6}
+              sx={open ? {} : gridAlignSize}
+              {...gridAlignProps}
+            >
+              <Card sx={{ width: 300, boxShadow: 6 }}>
                 <CardHeader
                   title={contact.name}
                   subheader={contact.role}
@@ -39,9 +75,15 @@ const ContactCardGrid = () => {
                       {contact.name?.substring(0, 1).toUpperCase() || 'A'}
                     </Avatar>
                   }
+                  sx={{
+                    borderBottom: '1px solid',
+                    borderBottomColor: 'primary.main',
+                  }}
                 />
                 <Collapse in={open}>
-                  <CardContent>
+                  <CardContent
+                    sx={{ height: 104 + maxSkills * contactLiHeight }}
+                  >
                     <Typography>
                       <b>Start Date:</b> {contact.startDate}
                     </Typography>
