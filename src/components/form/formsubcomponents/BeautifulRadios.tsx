@@ -2,6 +2,7 @@ import React from 'react'
 import {
   FormControlLabel,
   FormGroup,
+  FormHelperText,
   FormLabel,
   Radio,
   RadioGroup,
@@ -33,6 +34,7 @@ const BeautifulRadios = (props: any) => {
           control={<Radio />}
         />
       </RadioGroup>
+      <FormHelperText>Radio group hint / helper text</FormHelperText>
     </FormGroup>
   )
 }

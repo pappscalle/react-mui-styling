@@ -199,7 +199,11 @@ const ContactForm = () => {
                 onChange={handleRadioChange}
               />
 
-              <Stack>
+              <Stack
+                justifyContent="space-around"
+                alignItems="center"
+                sx={{ minWidth: minWidth }}
+              >
                 <Button variant="contained" onClick={handleSubmit}>
                   Save
                 </Button>
