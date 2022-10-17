@@ -200,8 +200,12 @@ const ContactForm = () => {
               />
 
               <Stack>
-                <Button onClick={handleSubmit}>Save</Button>
-                <Button onClick={handleClear}>Clear</Button>
+                <Button variant="contained" onClick={handleSubmit}>
+                  Save
+                </Button>
+                <Button variant="beautiful" onClick={handleClear}>
+                  Clear
+                </Button>
               </Stack>
             </StyledFormGroup>
           </FormControl>

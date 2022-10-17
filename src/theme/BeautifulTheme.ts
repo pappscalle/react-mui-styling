@@ -16,6 +16,12 @@ declare module '@mui/material/styles/createPalette' {
   }
 }
 
+declare module '@mui/material/Button' {
+  interface ButtonPropsVariantOverrides {
+    beautiful: true
+  }
+}
+
 const BeautifulTheme = createTheme({
   palette: {
     primary: {
@@ -26,6 +32,27 @@ const BeautifulTheme = createTheme({
     grid: {
       main: 'rgb(0,0,0,0.1)',
       dark: 'rgb(0,0,0,0.2',
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          border: '1px solid orange',
+        },
+      },
+      variants: [
+        {
+          props: {
+            variant: 'beautiful',
+          },
+          style: {
+            fontStyle: 'italic',
+            border: '4x solid lightpink',
+            color: 'fuchsia',
+          },
+        },
+      ],
     },
   },
 })
