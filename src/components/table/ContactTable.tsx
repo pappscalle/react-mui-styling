@@ -9,17 +9,42 @@ import {
 import React from 'react'
 import { contactData } from '../../data/ContactData'
 
+const borderBottomColor = {
+  borderBottomColor: 'primary.main',
+}
+
 const ContactTable = () => {
   return (
-    <TableContainer>
+    <TableContainer
+      sx={{
+        borderRadius: 1,
+        boxShadow: 6,
+        margin: 1,
+        width: 'calc(100% - 16px)',
+      }}
+    >
       <Table>
         <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Role</TableCell>
-            <TableCell>Skills</TableCell>
-            <TableCell>Start Date</TableCell>
-            <TableCell>Work Preference</TableCell>
+          <TableRow
+            sx={{
+              backgroundColor: 'grid.main',
+            }}
+          >
+            <TableCell sx={{ ...borderBottomColor, width: '30%' }}>
+              Name
+            </TableCell>
+            <TableCell sx={{ ...borderBottomColor, width: '17%' }}>
+              Role
+            </TableCell>
+            <TableCell sx={{ ...borderBottomColor, width: '17%' }}>
+              Skills
+            </TableCell>
+            <TableCell sx={{ ...borderBottomColor, width: '17%' }}>
+              Start Date
+            </TableCell>
+            <TableCell sx={{ ...borderBottomColor, width: '19%' }}>
+              Work Preference
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -28,10 +53,31 @@ const ContactTable = () => {
               <TableRow key={contact.name}>
                 {Object.entries(contact).map(([key, value]) => {
                   if (key === 'skills') {
-                    return <TableCell key={key}>{value.join(', ')}</TableCell>
-                  }
-                  if (key !== 'id') {
-                    return <TableCell key={key}>{value}</TableCell>
+                    return (
+                      <TableCell key={key} sx={borderBottomColor}>
+                        {value.join(', ')}
+                      </TableCell>
+                    )
+                  } else if (key === 'name') {
+                    return (
+                      <TableCell
+                        key={key}
+                        sx={{
+                          backgroundColor: key === 'name' ? 'primary.main' : '',
+                        }}
+                        onClick={(event: React.MouseEvent<HTMLElement>) => {
+                          console.log((event.target as Element).innerHTML)
+                        }}
+                      >
+                        {value}
+                      </TableCell>
+                    )
+                  } else if (key !== 'id') {
+                    return (
+                      <TableCell sx={borderBottomColor} key={key}>
+                        {value}
+                      </TableCell>
+                    )
                   }
                   return ''
                 })}
