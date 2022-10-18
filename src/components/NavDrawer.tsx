@@ -1,13 +1,16 @@
 import {
   AppBar,
   Drawer,
+  IconButton,
   List,
   ListItem,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from '@mui/material'
+import MenuIcon from '@mui/icons-material/Menu'
 import { Theme, ThemeProvider, useTheme } from '@mui/material/styles'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import BeautifulTheme from '../theme/BeautifulTheme'
 import ContactDataGrid from './datagrid/ContactDataGrid'
@@ -23,44 +26,78 @@ const theList = [
 ]
 
 const drawerWidth = 240
+const transitionDuration = 1000
 
-const themedStyles = (theme: Theme) => {
+const themedStyles = (theme: Theme, mobileResonsiveWidth: string | number) => {
   return {
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
     },
-  }
-}
-
-const styles = {
-  drawer: {
-    width: drawerWidth,
-    '& .MuiBackdrop-root': {
-      display: 'none',
+    drawer: {
+      width: mobileResonsiveWidth,
+      '& .MuiBackdrop-root': {
+        display: 'none',
+      },
     },
-  },
-  drawerPaper: {
-    width: drawerWidth,
-    backgroundColor: 'rgba(120,120,120, 0.2)',
-  },
-  content: {
-    padding: 3,
-    minWidth: drawerWidth,
-    marginLeft: 0,
-  },
-  contentShift: {
-    minWidth: drawerWidth,
-    marginLeft: drawerWidth,
-  },
+    menuButton: {
+      marginRight: 2,
+    },
+    drawerPaper: {
+      width: mobileResonsiveWidth,
+      backgroundColor: 'rgba(120,120,120, 0.2)',
+    },
+    content: {
+      padding: 3,
+      minWidth: mobileResonsiveWidth,
+      marginLeft: 0,
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: transitionDuration,
+      }),
+    },
+    contentShift: {
+      minWidth: mobileResonsiveWidth,
+      marginLeft: mobileResonsiveWidth,
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: transitionDuration,
+      }),
+    },
+  }
 }
 
 const NavDrawer = () => {
   const theme = useTheme()
+  const greaterThan375 = useMediaQuery('(min-width: 376px)')
+  const [open, setOpen] = useState(greaterThan375)
+  const responsiveDrawerWidth = greaterThan375 ? drawerWidth : '100%'
+
+  useEffect(() => {
+    setOpen(greaterThan375)
+  }, [greaterThan375])
+
+  const handleMenuClick = () => {
+    setOpen(!open)
+  }
+
   return (
     <div>
       <BrowserRouter>
-        <AppBar position="fixed" sx={themedStyles(theme).appBar}>
+        <AppBar
+          position="fixed"
+          sx={themedStyles(theme, responsiveDrawerWidth).appBar}
+        >
           <Toolbar>
+            <IconButton
+              onClick={handleMenuClick}
+              edge="start"
+              sx={{
+                ...themedStyles(theme, responsiveDrawerWidth).menuButton,
+                display: greaterThan375 ? 'none' : '',
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
             <Typography variant="h6" noWrap>
               Material UI (MUI5) Styling
             </Typography>
@@ -69,22 +106,38 @@ const NavDrawer = () => {
         <Drawer
           disableEnforceFocus
           variant="temporary"
-          open={true}
-          sx={styles.drawer}
-          PaperProps={{ elevation: 9, sx: styles.drawerPaper }}
+          open={open}
+          sx={themedStyles(theme, responsiveDrawerWidth).drawer}
+          PaperProps={{
+            elevation: 9,
+            sx: themedStyles(theme, responsiveDrawerWidth).drawerPaper,
+          }}
         >
           <Toolbar />
           <div>
             <List>
               {theList.map((nav, index) => (
-                <ListItem key={nav.text}>
+                <ListItem
+                  key={nav.text}
+                  sx={{
+                    borderBottom: '1px solid',
+                    borderBottomColor: 'primary.main',
+                  }}
+                >
                   <Link to={nav.route}>{nav.text}</Link>
                 </ListItem>
               ))}
             </List>
           </div>
         </Drawer>
-        <main style={{ ...styles.content, ...styles.contentShift }}>
+        <main
+          style={{
+            ...themedStyles(theme, responsiveDrawerWidth).content,
+            ...(open
+              ? themedStyles(theme, responsiveDrawerWidth).contentShift
+              : {}),
+          }}
+        >
           <Toolbar />
           <ThemeProvider theme={BeautifulTheme}>
             <Routes>

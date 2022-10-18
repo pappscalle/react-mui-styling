@@ -12,7 +12,8 @@ const BeautifulTextField = (props: any) => {
       variant="outlined"
       sx={{
         minWidth: minWidth,
-        marginRight: 2,
+        marginRight: { md: 2 },
+        marginBottom: { xs: 2, md: 0 },
         '& .MuiOutlinedInput-root.Mui-focused': {
           fieldset: {
             borderColor: 'primary.dark',

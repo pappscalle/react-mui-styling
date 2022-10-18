@@ -22,7 +22,8 @@ const BeautifulSelect = (props: any) => {
       labelId="skill-select-label"
       sx={{
         minWidth: minWidth,
-        marginRight: 2,
+        marginRight: { md: 2 },
+        marginBottom: { xs: 2, md: 0 },
       }}
       //   onChange={handleSelectChange}
       //   value={formValues.skills || ''}
